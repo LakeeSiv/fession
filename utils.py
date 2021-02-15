@@ -11,16 +11,15 @@ def post_number(hashtags, index):
 
 def get_credentials():
 
-"""
-currently login does not work
+    """
+    currently login does not work
+    """
 
-"""
+    with open("logindetails.csv", "r") as file:
+        details = csv.reader(file)
+        for detail in details:
 
-with open("logindetails.csv", "r") as file:
-    details = csv.reader(file)
-    for detail in details:
+            email = detail[0]
+            password = detail[1]
 
-        email = detail[0]
-        password = detail[1]
-
-    return (email, password)
+        return (email, password)
