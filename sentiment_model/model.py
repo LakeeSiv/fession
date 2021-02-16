@@ -17,31 +17,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 SEQUENCE_LENGTH = 300
 
-# SENTIMENT
-POSITIVE = "POSITIVE"
-NEGATIVE = "NEGATIVE"
-NEUTRAL = "NEUTRAL"
-SENTIMENT_THRESHOLDS = (0.4, 0.7)
-
-
+# load model
 model = load_model("sentiment_model/model.h5")
 
-
+# load tokenizer
 with open('sentiment_model/tokenizer.pkl', 'rb') as handle:
     tokenizer = pickle.load(handle)
-
-
-def decode_sentiment(score, include_neutral=True):
-    if include_neutral:
-        label = NEUTRAL
-        if score <= SENTIMENT_THRESHOLDS[0]:
-            label = NEGATIVE
-        elif score >= SENTIMENT_THRESHOLDS[1]:
-            label = POSITIVE
-
-        return label
-    else:
-        return NEGATIVE if score < 0.5 else POSITIVE
 
 
 def predict(text, include_neutral=True):
@@ -50,9 +31,8 @@ def predict(text, include_neutral=True):
     x_test = pad_sequences(
         tokenizer.texts_to_sequences(
             [text]), maxlen=SEQUENCE_LENGTH)
-    # Predict
-    score = model.predict([x_test])[0]
-    # Decode sentiment
-    label = decode_sentiment(score, include_neutral=include_neutral)
 
-    return {"label": label, "score": float(score)}
+    score = model.predict([x_test])[0]
+    score = 2 * score - 1  # map score between [-1,1]
+
+    return score[0]
