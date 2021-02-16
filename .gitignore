@@ -1,5 +1,3 @@
 logindetails.csv
 __pycache__
 venv
-*.h5
-sentiment_model/model.h5
