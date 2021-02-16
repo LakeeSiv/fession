@@ -1,27 +1,35 @@
 import csv
+import re
 
+class Post:
 
-def post_number(words: list, GROUP: str) -> int:
-    """
-    finds the postnumber by searching for the largest number
-    in the GROUP hashtag, which normally looks like
-    f"#{GROUP}{post_num}"
+    def __init__(self,GROUP,post):
+        
+        self.posttext = post["text"]
+        self.GROUP = GROUP
 
-    Args:
-        words: list of words in a post
-        GROUP: unifession group name
+    def get_post_number(text: list, GROUP: str) -> int:
+        """
+        finds the postnumber by searching for the largest number
+        in the GROUP hashtag, which normally looks like
+        f"#{GROUP}{post_num}"
 
-    Returns:
-        post_num: post number
-    """
-    post_num = 0
-    for word in words:
-        word = word.lower()
-        if GROUP in word:
-            number = int(word[1 + len(GROUP):])
-            post_num = max(post_num, number)
+        Args:
+            text: text of a post
+            GROUP: unifession group name
 
-    return post_num
+        Returns:
+            post_num: post number
+        """
+        words = re.split("\n| ", text)
+        post_num = 0
+        for word in words:
+            word = word.lower()
+            if GROUP in word:
+                number = int(word[1 + len(GROUP):])
+                post_num = max(post_num, number)
+
+        return post_num
 
 
 def get_credentials() -> tuple:
