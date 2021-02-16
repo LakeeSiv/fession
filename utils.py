@@ -1,10 +1,11 @@
 import csv
 import re
 
+
 class PostClass:
 
-    def __init__(self,post,GROUP):
-        
+    def __init__(self, post, GROUP):
+
         self.posttext = post["text"]
         self.GROUP = GROUP
 
@@ -29,14 +30,19 @@ class PostClass:
 
     def get_post_text(self) -> str:
         """
+        Removes the hastags from the post and returns
+        all the text as a string
+
+        Returns:
+            text
         """
         words = re.split("\n| ", self.posttext)
-        post_text_list = [word for word in words if f"#{self.GROUP}" not in word.lower()]
+        post_text_list = [
+            word for word in words if f"#{self.GROUP}" not in word.lower()]
 
-        return " ".join(post_text_list)
+        text = " ".join(post_text_list)
 
-
-
+        return text
 
 
 def get_credentials() -> tuple:

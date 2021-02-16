@@ -1,6 +1,5 @@
 from facebook_scraper import get_posts
-from utils import post_number
-import re
+from utils import PostClass
 
 GROUP = "realoxfess"
 
@@ -10,11 +9,8 @@ next(all_posts)  # ignore the page description
 
 
 for post in (all_posts):
-    text = post["text"]
-    # print(text,"\n","--------------------------------------------------------------------")
+    Post = PostClass(post, GROUP)
+    # print(alltext,"\n","--------------------------------------------------------------------")
 
-    words = re.split("\n| ", text)
-
-    print(post_number(words, GROUP))
-
-    # print(words,"\n","--------------------------------------------------------------------")
+    print(Post.get_post_number())
+    print(Post.get_post_text())
