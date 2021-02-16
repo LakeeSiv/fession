@@ -24,7 +24,11 @@ bin_heights, bin_borders, _ = plt.hist(a, bins='auto', label='histogram')
 bin_centers = bin_borders[:-1] + np.diff(bin_borders) / 2
 popt, _ = curve_fit(gaussian, bin_centers, bin_heights, p0=[1., 0., 1.])
 
+mu = popt[0]
+sigma = popt[2]
+
 x_interval_for_fit = np.linspace(bin_borders[0], bin_borders[-1], 10000)
 plt.plot(x_interval_for_fit, gaussian(x_interval_for_fit, *popt), label='fit')
+plt.title(f"Gaussian Distribution $\mu={mu},\sigma={sigma}$")
 plt.legend()
 plt.show()
